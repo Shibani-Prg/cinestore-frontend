@@ -5,7 +5,7 @@ import {
   getTrendingBollywood,
   getTrendingSouth,
   getTrendingAnimated,
-} from "../../movieApi";
+} from "../../../movieApi";
 
 const Trending = () => {
   const [hollywood, setHollywood] = useState([]);

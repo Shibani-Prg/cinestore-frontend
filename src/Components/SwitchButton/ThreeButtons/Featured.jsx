@@ -4,7 +4,7 @@ import {
   getTopRated,
   getHollywood,
   getBollywood,
-} from "../../movieApi";
+} from "../../../movieApi";
 
 const Featured = () => {
   const [topRated, setTopRated] = useState([]);
