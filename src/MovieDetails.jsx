@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const API_KEY = "cafd1dd89b09980ab77cf23458aeacd2";
+
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -12,7 +12,7 @@ const MovieDetails = () => {
     const fetchMovie = async () => {
       try {
         const res = await axios.get(
-          `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
+          `${import.meta.env.VITE_API_URL}/movie/${id}`
         );
         setMovie(res.data);
       } catch (err) {
