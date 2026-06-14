@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-
-
+import { getMovies } from "../../movieApi";
 
 const MovieRow = () => {
   const [movies, setMovies] = useState([]);
@@ -12,23 +11,15 @@ const MovieRow = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
+        const { data } = await getMovies();
 
-        const res = await fetch(
-          "https://movie-backend-5eac.onrender.com/movies"
-        );
+        console.log("API DATA:", data); // debug (optional)
 
-
-
-        const data = await res.json();
-
-
-        // ✅ CHANGED: backend already gives combined data
         const filtered = (data.results || []).filter(
           (m) => m && m.poster_path
         );
 
         setMovies(filtered);
-
       } catch (err) {
         console.error("Fetch error:", err);
       } finally {
@@ -37,7 +28,7 @@ const MovieRow = () => {
     };
 
     fetchMovies();
-  }, []); // ✅ ONLY ONCE
+  }, []);
 
   // AUTO SCROLL
   useEffect(() => {
@@ -99,7 +90,7 @@ const MovieRow = () => {
         onMouseLeave={() => setIsHovered(false)}
         className="flex gap-4 overflow-x-scroll scrollbar-hide"
       >
-        {movies.map((movie) => (
+        {movies?.map((movie) => (
           <div
             key={movie.id}
             onClick={() => {
@@ -117,7 +108,7 @@ const MovieRow = () => {
             <img
               src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
               alt={movie.title}
-              loading="lazy" // ✅ ADDED (performance)
+              loading="lazy"
               className="w-full h-64 object-cover"
             />
 

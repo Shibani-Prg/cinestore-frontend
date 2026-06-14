@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { moodGenres } from "./moodData";
 import MoodButton from "./Moodbutton";
-
-const API_KEY = "cafd1dd89b09980ab77cf23458aeacd2";
+import { getMoviesByGenre } from "../../movieApi";
+import { useNavigate } from "react-router-dom";
 
 const Mood = () => {
   const [selectedMood, setSelectedMood] = useState("relax");
   const [movies, setMovies] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -14,11 +15,7 @@ const Mood = () => {
         const genreId = moodGenres[selectedMood];
         if (!genreId) return;
 
-
-        const res = await fetch(
-          `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&region=IN&sort_by=popularity.desc`
-        );
-        const data = await res.json();
+        const { data } = await getMoviesByGenre(genreId);
         setMovies(data.results || []);
       } catch (error) {
         console.error("Error fetching movies:", error);
@@ -60,23 +57,17 @@ const Mood = () => {
       {/* GRID */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
 
-        {movies.map((movie) => (
+        {movies?.map((movie) => (
           <div
             key={movie.id}
-            onClick={() => {
-              window.open(
-                `https://www.google.com/search?q=${encodeURIComponent(movie.title + " movie")}`,
-                "_blank"
-              );
-            }}
+            onClick={() => navigate(`/movie/${movie.id}`)} // 🔥 navigate to details
             className="bg-gray-900 rounded-xl overflow-hidden 
                        hover:scale-105 hover:shadow-red-500/40 
                        transition duration-300 cursor-pointer group"
           >
 
-            {/* IMAGE FRAME */}
+            {/* IMAGE */}
             <div className="w-full aspect-[16/9] overflow-hidden rounded-t-xl">
-
               <img
                 src={
                   movie.poster_path
@@ -84,14 +75,13 @@ const Mood = () => {
                     : "https://via.placeholder.com/300x450"
                 }
                 alt={movie.title}
-                className="w-full h-90 object-cover object-fill
+                className="w-full h-90 object-cover
                group-hover:scale-110 hover:opacity-45 transition duration-300"
               />
-
             </div>
+
             {/* INFO */}
             <div className="p-3 bg-black/80">
-
               <h3 className="text-sm font-semibold line-clamp-2">
                 {movie.title}
               </h3>
@@ -99,14 +89,12 @@ const Mood = () => {
               <span className="text-red-500 text-xs">
                 ⭐ {movie.vote_average}
               </span>
-
             </div>
 
           </div>
         ))}
 
       </div>
-
     </div>
   );
 };

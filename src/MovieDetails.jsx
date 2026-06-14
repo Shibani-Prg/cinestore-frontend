@@ -1,8 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
-
-
+import { getMovieById } from "../../movieApi";
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -11,10 +9,8 @@ const MovieDetails = () => {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/movie/${id}`
-        );
-        setMovie(res.data);
+        const { data } = await getMovieById(id);
+        setMovie(data);
       } catch (err) {
         console.error(err);
       }
