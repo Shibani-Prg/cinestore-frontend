@@ -1,13 +1,13 @@
 import API from "./api";
 
-// 🎬 Get all movies
+// 🎬 All movies
 export const getMovies = () => API.get("/movies");
 
-// 🔍 Search (FIXED)
+// 🔍 Search
 export const searchMovies = (query) =>
   API.get(`/search?q=${query}`);
 
-// 🎥 Movie details (FIXED)
+// 🎥 Movie details
 export const getMovieById = (id) =>
   API.get(`/movie/${id}`);
 
@@ -18,12 +18,6 @@ export const getMoviesByGenre = (genreId) =>
 // ⭐ Featured
 export const getTopRated = () =>
   API.get("/movies/top-rated");
-
-export const getHollywood = () =>
-  API.get("/movies/hollywood");
-
-export const getBollywood = () =>
-  API.get("/movies/bollywood");
 
 // 🔥 Trending
 export const getTrendingHollywood = () =>

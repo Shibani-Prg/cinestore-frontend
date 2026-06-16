@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import Section from "./Section";
 import {
   getTopRated,
@@ -44,6 +45,13 @@ const Featured = () => {
 
   return (
     <div className="bg-black text-white p-4 pt-28 space-y-8">
+      <Helmet>
+        <title>Featured Movies | Movora</title>
+        <meta name="description" content="Top rated and featured movies" />
+        <meta property="og:title" content="Featured Movies | Movora" />
+        <meta property="og:description" content="Discover top rated and featured movies" />
+        <meta property="og:type" content="website" />
+      </Helmet>
       <Section title="⭐ Top Rated Movies" data={topRated} />
       <Section title="Hollywood Best" data={hollywood} />
       <Section title="Bollywood Best" data={bollywood} />

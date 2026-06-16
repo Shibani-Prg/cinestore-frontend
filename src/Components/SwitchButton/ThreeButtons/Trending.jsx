@@ -6,6 +6,7 @@ import {
   getTrendingSouth,
   getTrendingAnimated,
 } from "../../../movieApi";
+import { Helmet } from "react-helmet"; // ✅ FIX
 
 const Trending = () => {
   const [hollywood, setHollywood] = useState([]);
@@ -48,6 +49,20 @@ const Trending = () => {
 
   return (
     <div className="bg-black text-white p-4 pt-28 space-y-8">
+
+      {/* 🔥 SEO */}
+      <Helmet>
+        <title>Trending Movies | Movora</title>
+        <meta
+          name="description"
+          content="Watch trending Bollywood, Hollywood, South and animated movies on Movora"
+        />
+        {/* 🔥 Open Graph (for WhatsApp, Instagram, etc.) */}
+        <meta property="og:title" content="Trending Movies | Movora" />
+        <meta property="og:description" content="Explore trending movies on Movora" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
       <Section title="🔥 Hollywood" data={hollywood} />
       <Section title="🇮🇳 Bollywood" data={bollywood} />
       <Section title="🎬 South Movies" data={south} />

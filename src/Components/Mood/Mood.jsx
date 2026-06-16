@@ -3,6 +3,8 @@ import { moodGenres } from "./moodData";
 import MoodButton from "./Moodbutton";
 import { getMoviesByGenre } from "../../movieApi";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
+
 
 const Mood = () => {
   const [selectedMood, setSelectedMood] = useState("relax");
@@ -32,7 +34,13 @@ const Mood = () => {
 
   return (
     <div className="px-6 py-6 text-white">
-
+      <Helmet>
+        <title>Movies by Mood | Movora</title>
+        <meta name="description" content="Find movies based on your mood" />
+        <meta property="og:title" content="Movies by Mood | Movora" />
+        <meta property="og:description" content="Explore movies based on your mood" />
+        <meta property="og:type" content="website" />
+      </Helmet>
       {/* HEADER */}
       <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6">
         <h2 className="text-2xl font-bold mb-4 md:mb-10">
