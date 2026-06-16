@@ -28,7 +28,7 @@ const MovieDetails = () => {
   return (
     <div className="bg-black text-white p-6 pt-28 min-h-screen">
       <Helmet>
-        <title>Trending Movies | Movora</title>
+        <title>{movie.title} | Movora</title>
         <meta
           name="description"
           content="Watch trending Bollywood, Hollywood, South and animated movies on Movora"
