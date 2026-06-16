@@ -12,6 +12,7 @@ const Trending = () => {
   const [bollywood, setBollywood] = useState([]);
   const [south, setSouth] = useState([]);
   const [animated, setAnimated] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,13 +30,15 @@ const Trending = () => {
         setAnimated(anim.data.results || []);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
   }, []);
 
-  if (!hollywood.length) {
+  if (loading) {
     return (
       <div className="text-white text-center mt-20">
         Loading movies...

@@ -2,22 +2,23 @@ import { useEffect, useState } from "react";
 import Section from "./Section";
 import {
   getTopRated,
-  getHollywood,
-  getBollywood,
+  getHollywoodPage,
+  getBollywoodPage,
 } from "../../../movieApi";
 
 const Featured = () => {
   const [topRated, setTopRated] = useState([]);
   const [hollywood, setHollywood] = useState([]);
   const [bollywood, setBollywood] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [top, holly, bolly] = await Promise.all([
           getTopRated(),
-          getHollywood(),
-          getBollywood(),
+          getHollywoodPage(1),
+          getBollywoodPage(1),
         ]);
 
         setTopRated(top.data.results || []);
@@ -25,13 +26,15 @@ const Featured = () => {
         setBollywood(bolly.data.results || []);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
   }, []);
 
-  if (!topRated.length) {
+  if (loading) {
     return (
       <h2 className="text-white text-center mt-20">
         Loading Featured...
