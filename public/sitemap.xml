@@ -3,14 +3,20 @@
 
   <url>
     <loc>https://cinestore-frontend.vercel.app/</loc>
+    <lastmod>2026-01-01</lastmod>
+    <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://cinestore-frontend.vercel.app/trending</loc>
+    <lastmod>2026-01-01</lastmod>
+    <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://cinestore-frontend.vercel.app/featured</loc>
+    <lastmod>2026-01-01</lastmod>
+    <priority>0.8</priority>
   </url>
 
 </urlset>
