@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Home from "./Home";
 import Bollywood from "./Pages/Bollywood/Bollywood";
