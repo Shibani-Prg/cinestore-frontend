@@ -41,3 +41,15 @@ export const getTrendingAnimated = () =>
 // 📄 Pagination
 export const getBollywoodPage = (page) =>
   API.get(`/movies/bollywood/page/${page}`);
+
+export const getHollywoodPage = (page) =>
+  API.get(`/movies/hollywood/page/${page}`);
+
+export const getKoreanPage = (page) =>
+  API.get(`/movies/korean/page/${page}`);
+
+export const getThaiPage = (page) =>
+  API.get(`/movies/thai/page/${page}`);
+
+export const getSouthPage = (page) =>
+  API.get(`/movies/south/page/${page}`);

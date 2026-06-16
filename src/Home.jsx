@@ -9,10 +9,13 @@ import MovieRow from './Components/MovieRow/MovieRow'
 const Home = () => {
   return (
     <div className='min-h-screen w-full bg-black mt-30'>
+          
 
       <div
         onClick={() => window.dispatchEvent(new Event("closeSearch"))}
       ></div>
+
+      
       <div>
         <Headershow />
       </div>

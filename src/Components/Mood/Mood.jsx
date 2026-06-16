@@ -7,11 +7,14 @@ import { useNavigate } from "react-router-dom";
 const Mood = () => {
   const [selectedMood, setSelectedMood] = useState("relax");
   const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
+        setLoading(true);
+
         const genreId = moodGenres[selectedMood];
         if (!genreId) return;
 
@@ -19,6 +22,8 @@ const Mood = () => {
         setMovies(data.results || []);
       } catch (error) {
         console.error("Error fetching movies:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -30,12 +35,11 @@ const Mood = () => {
 
       {/* HEADER */}
       <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6">
-
-        <h2 className="text-2xl font-bold text-white mb-4 md:mb-10">
+        <h2 className="text-2xl font-bold mb-4 md:mb-10">
           🎭 Watch by Mood
         </h2>
 
-        {/* BUTTONS */}
+        {/* MOOD BUTTONS */}
         <div className="flex gap-3 flex-wrap">
           {Object.keys(moodGenres).map((mood) => (
             <MoodButton
@@ -46,7 +50,6 @@ const Mood = () => {
             />
           ))}
         </div>
-
       </div>
 
       {/* LABEL */}
@@ -54,45 +57,132 @@ const Mood = () => {
         Showing <span className="text-red-500">{selectedMood}</span> mood 🎬
       </h3>
 
+      {/* LOADING */}
+      {loading && (
+        <p className="text-center mt-10 text-gray-400">
+          Loading movies...
+        </p>
+      )}
+
+      {/* EMPTY */}
+      {!loading && movies.length === 0 && (
+        <p className="text-center mt-10 text-gray-400">
+          No movies found 😢
+        </p>
+      )}
+
       {/* GRID */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
 
-        {movies?.map((movie) => (
-          <div
-            key={movie.id}
-            onClick={() => navigate(`/movie/${movie.id}`)} // 🔥 navigate to details
-            className="bg-gray-900 rounded-xl overflow-hidden 
-                       hover:scale-105 hover:shadow-red-500/40 
-                       transition duration-300 cursor-pointer group"
-          >
+        {!loading &&
+          movies.map((movie) => {
+            let existing = [];
 
-            {/* IMAGE */}
-            <div className="w-full aspect-[16/9] overflow-hidden rounded-t-xl">
-              <img
-                src={
-                  movie.poster_path
-                    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-                    : "https://via.placeholder.com/300x450"
-                }
-                alt={movie.title}
-                className="w-full h-90 object-cover
-               group-hover:scale-110 hover:opacity-45 transition duration-300"
-              />
-            </div>
+            try {
+              existing = JSON.parse(localStorage.getItem("watchlist")) || [];
+            } catch (err) {
+              console.error("Invalid watchlist data");
+              existing = [];
+            }
 
-            {/* INFO */}
-            <div className="p-3 bg-black/80">
-              <h3 className="text-sm font-semibold line-clamp-2">
-                {movie.title}
-              </h3>
+            const isSaved = existing.some((m) => m.id === movie.id);
 
-              <span className="text-red-500 text-xs">
-                ⭐ {movie.vote_average}
-              </span>
-            </div>
+            const toggleWatchlist = (e) => {
+              e.stopPropagation();
 
-          </div>
-        ))}
+              let updated;
+
+              if (isSaved) {
+                updated = existing.filter((m) => m.id !== movie.id);
+                console.log("Removed ❌");
+              } else {
+                updated = [...existing, movie];
+                console.log("Added ✅");
+              }
+
+              localStorage.setItem("watchlist", JSON.stringify(updated));
+
+              // force re-render
+              setMovies((prev) => [...prev]);
+            };
+
+            return (
+              <div
+                key={movie.id}
+                className="bg-gray-900 rounded-xl overflow-hidden 
+                           hover:scale-105 hover:shadow-red-500/40 
+                           transition duration-300 cursor-pointer group relative"
+                onClick={() => navigate(`/movie/${movie.id}`)}
+              >
+
+                {/* IMAGE */}
+                <div className="w-full aspect-[16/9] overflow-hidden rounded-t-xl">
+                  <img
+                    src={
+                      movie.poster_path
+                        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                        : "https://via.placeholder.com/300x450"
+                    }
+                    alt={movie.title}
+                    className="w-full h-90 object-cover
+                    group-hover:scale-110 group-hover:opacity-50 transition duration-300"
+                  />
+                </div>
+
+                {/* OVERLAY */}
+                <div
+                  className="absolute inset-0 bg-black/70 opacity-0 
+                  group-hover:opacity-70
+                  flex flex-col justify-center items-center
+                  text-white text-xs p-2
+                  transition duration-300"
+                >
+
+                  {/* ⭐ Rating */}
+                  <p className="mb-2">⭐ {movie.vote_average}</p>
+
+                  {/* ❤️ TOGGLE */}
+                  <button
+                    onClick={toggleWatchlist}
+                    className={`px-3 py-1 rounded text-xs mb-2 ${isSaved ? "bg-green-600" : "bg-red-600"
+                      }`}
+                  >
+                    {isSaved ? "✅ Added" : "❤️ Save"}
+                  </button>
+
+                  {/* ℹ️ DETAILS */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/movie/${movie.id}`);
+                    }}
+                    className="bg-gray-700 px-3 py-1 rounded text-xs hover:bg-gray-600"
+                  >
+                    ℹ️ Details
+                  </button>
+                </div>
+
+                {/* BADGE */}
+                {isSaved && (
+                  <div className="absolute top-2 left-2 bg-green-600 text-white text-xs px-2 py-1 rounded">
+                    Added
+                  </div>
+                )}
+
+                {/* INFO */}
+                <div className="p-3 bg-black/80">
+                  <h3 className="text-sm font-semibold line-clamp-2">
+                    {movie.title}
+                  </h3>
+
+                  <span className="text-red-500 text-xs">
+                    ⭐ {movie.vote_average}
+                  </span>
+                </div>
+
+              </div>
+            );
+          })}
 
       </div>
     </div>

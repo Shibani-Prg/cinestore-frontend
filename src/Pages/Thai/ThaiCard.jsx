@@ -1,40 +1,34 @@
-import React from 'react'
-import Headershow from '../../Components/Header/Headershow/Headershow';
+import React from 'react';
+import { useNavigate } from "react-router-dom";
 
 const ThaiCard = ({ elem }) => {
-  const imageUrl = `https://image.tmdb.org/t/p/w500${elem.poster_path}`;
+  const navigate = useNavigate();
+
+  const imageUrl = elem.poster_path
+    ? `https://image.tmdb.org/t/p/w500${elem.poster_path}`
+    : "https://via.placeholder.com/200x300?text=No+Image";
 
   return (
-    <div>
-     
-        <Headershow />
-    
-      <div className='pt-25'>
-        <div className='p-2 group cursor-pointer'>
-          <div className='h-60 w-44 overflow-hidden rounded-xl relative
-                      transition duration-300 
-                      group-hover:scale-102 
-                      group-hover:shadow-[0_0_20px_rgba(255,0,0,1)]'>
-            <img
-              src={imageUrl}
-              alt={elem.title}
-              onClick={() => {
-                window.open(
-                  `https://www.google.com/search?q=${encodeURIComponent(
-                    elem.title + " movie reviews rating imdb rotten tomatoes"
-                  )}`,
-                  "_blank"
-                );
-              }}
-              className="h-full w-full object-cover 
-             transition duration-300 
-             group-hover:scale-110 group-hover:opacity-60 
-             cursor-pointer"
-            />
-          </div>
-          <h2 className='text-sm mt-2 text-center mr-10'>{elem.title}</h2>
-        </div>
+    <div className='p-2 group cursor-pointer'>
+      <div
+        className='h-60 w-44 overflow-hidden rounded-xl relative
+        transition duration-300 
+        group-hover:scale-102 
+        group-hover:shadow-[0_0_20px_rgba(255,0,0,1)]'
+      >
+        <img
+          src={imageUrl}
+          alt={elem.title}
+          onClick={() => navigate(`/movie/${elem.id}`)} // ✅ FIXED
+          className="h-full w-full object-cover 
+          transition duration-300 
+          group-hover:scale-110 group-hover:opacity-60"
+        />
       </div>
+
+      <h2 className='text-sm mt-2 text-center'>
+        {elem.title}
+      </h2>
     </div>
   );
 };

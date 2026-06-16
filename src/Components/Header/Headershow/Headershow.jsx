@@ -22,7 +22,7 @@ const Headershow = () => {
         <div className="flex items-center gap-2">
           <span className="text-3xl">🎬</span>
           <h1 className="text-2xl font-bold text-red-500">
-            CineStore
+           Movora
           </h1>
         </div>
 

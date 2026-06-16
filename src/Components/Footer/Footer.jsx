@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { FaGlobe, FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -9,8 +11,9 @@ const Footer = () => {
         {/* LOGO / ABOUT */}
         <div>
           <h2 className="text-white text-xl font-bold mb-3">
-            🎬 CineStore
+            🎬 Movora
           </h2>
+          
           <p className="text-sm">
             Discover trending movies, explore by mood, and dive into detailed
             movie insights — all in one place.
@@ -20,36 +23,101 @@ const Footer = () => {
         {/* NAV LINKS */}
         <div>
           <h3 className="text-white font-semibold mb-3">Quick Links</h3>
+
           <ul className="space-y-2 text-sm">
-            <li className="hover:text-white cursor-pointer">Home</li>
-            <li className="hover:text-white cursor-pointer">Trending</li>
-            <li className="hover:text-white cursor-pointer">Mood</li>
-            <li className="hover:text-white cursor-pointer">Featured</li>
+            <li>
+              <Link to="/" className="hover:text-white transition">
+                Home
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/trending" className="hover:text-white transition">
+                Trending
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/mood" className="hover:text-white transition">
+                Mood
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/featured" className="hover:text-white transition">
+                Featured
+              </Link>
+            </li>
           </ul>
         </div>
 
         {/* CONTACT / SOCIAL */}
         <div>
           <h3 className="text-white font-semibold mb-3">Connect</h3>
-          <div className="flex gap-4 text-lg">
-            <span className="hover:text-white cursor-pointer">🌐</span>
-            <span className="hover:text-white cursor-pointer">🐦</span>
-            <span className="hover:text-white cursor-pointer">📸</span>
-          </div>
+          <div>
+            <h3 className="text-white font-semibold mb-3">Connect</h3>
 
-          <p className="text-sm mt-4">
-            Built with ❤️ using React & TMDB API
-          </p>
+            <div className="flex gap-5 text-xl">
+
+              {/* Portfolio */}
+              <a
+                href="https://your-portfolio.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaGlobe className="hover:text-white hover:scale-110 transition duration-300" />
+              </a>
+
+              {/* GitHub */}
+              <a
+                href="https://github.com/shibani-prg"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaGithub className="hover:text-gray-300 hover:scale-110 transition duration-300" />
+              </a>
+
+              {/* LinkedIn */}
+              <a
+                href="https://linkedin.com/in/shibanikumaripani"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaLinkedin className="hover:text-blue-500 hover:scale-110 transition duration-300" />
+              </a>
+
+              {/* Instagram */}
+              <a
+                href="https://instagram.com/shhibani"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaInstagram className="hover:text-pink-500 hover:scale-110 transition duration-300" />
+              </a>
+
+            </div>
+
+            <p className="text-sm mt-4">
+              Built with ❤️ using React & TMDB API.
+             
+            </p>
+         
+          
         </div>
 
+
+
+
       </div>
 
-      {/* BOTTOM */}
-      <div className="text-center text-xs text-gray-500 mt-8">
-        © {new Date().getFullYear()} CineStore. All rights reserved.
-      </div>
+    </div>
 
-    </footer>
+      {/* BOTTOM */ }
+  <div className="text-center text-xs text-gray-500 mt-8">
+    © {new Date().getFullYear()} Movora. All rights reserved.
+  </div>
+
+    </footer >
   );
 };
 
